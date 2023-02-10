@@ -8,23 +8,23 @@ from sklearn.metrics import mean_squared_error, mean_absolute_error
 file_path = r"C:\Users\kanem\Documents\ML_Bike_Rental\data\raw\daily-bike-share.csv"
 df = pd.read_csv(file_path)
 
+df.columns
 # Define the features and target
-features = ['temp', 'hum', 'windspeed', 'weekday', 'workingday', 'weathersit']
-target = 'rentals'
+X = df[['season', 'yr', 'mnth', 'holiday', 'weekday', 'workingday','weathersit','temp','atemp','hum','windspeed',]]
+y = df['rentals']
 
 # Split the data into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(df[features], df[target], test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
 
-# Train the linear regression model
-reg = LinearRegression().fit(X_train, y_train)
+# Define the linear regression model
+model = LinearRegression()
 
-# Use the model to make predictions on the test data
-y_pred = reg.predict(X_test)
+# fit model to data
+model.fit(X_train, y_train)
 
-# Calculate the mean squared error (MSE) and mean absolute error (MAE) as test scores
-mse = mean_squared_error(y_test, y_pred)
-mae = mean_absolute_error(y_test, y_pred)
+# test model on test data
 
-# Print the test scores
-print("Mean Squared Error:", mse)
-print("Mean Absolute Error:", mae)
+test_score = model.score(X_test, y_test)
+print("R2 test score", test_score)
+
+
